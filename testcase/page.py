@@ -23,34 +23,28 @@ class MainPage(BasePage):
     #Declares a variable that will contain the retrieved text
     search_text_element = SearchTextElement()
 
-    def is_title_matches(self):
-        """Verifies that the hardcoded text "Python" appears in page title"""
-
-        return "Python" in self.driver.title
-
     def click_cookie_button(self):
 
         element = self.driver.find_element(*MainPageLocators.COOKIE_BUTTON)
         element.click()
 
 
-    def click_go_button(self):
-        """Triggers the search"""
+    def click_buscar(self):
 
-        element = self.driver.find_element(*MainPageLocators.GO_BUTTON)
+        element = self.driver.find_element(*MainPageLocators.SELECIONAR_FORFAIT)
         element.click()
 
-    def read_swimlanes(self):
+    def buscar_swimlane(self, servicio):
 
         items = self.driver.find_elements(*MainPageLocators.SWIMLINES)
-        swimlanes = []
         for num in range(1, len(items)):
 
             swimline_name = self.driver.find_element(By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{num}]/label/div[2]/div/div[2]/div/div')
-            swimlanes.append(swimline_name.text)
-        print(swimlanes)
-        return swimlanes
+            if servicio == swimline_name.text.lower():
+                return True
+        return False
 
+    
         
 
 

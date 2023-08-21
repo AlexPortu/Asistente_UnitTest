@@ -11,18 +11,20 @@ class AsistenteSearch(unittest.TestCase):
         self.driver = webdriver.Chrome()
         self.driver.get("https://assistant.grandvalira.com/assistant/intereses")
 
-    def test_load_swimlanes(self):
+    def test_swimlane_forfait(self):
 
 
-        #Load the main page. In this case the home page of Python.org.
+        #Carga la página principal. La que se determine en setUp()
         main_page = page.MainPage(self.driver)
 
-        #Sets the text of search textbox to "clases"
+        #Aceptar cookies
         main_page.click_cookie_button()
 
-        #Verifies that the results page is not empty
-        swimlanes = main_page.read_swimlanes()
-        
+        #Verifica que existe la swimlane
+        servicio = "forfait"
+        swimlanes = main_page.buscar_swimlane(servicio)
+        self.assertEqual(swimlanes, True)
+    
         
 
     def tearDown(self):
