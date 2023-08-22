@@ -50,7 +50,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
+chrome-win64
 # Translations
 *.mo
 *.pot
