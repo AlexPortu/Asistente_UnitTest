@@ -1,6 +1,9 @@
-from element import BasePageElement
-from locator import MainPageLocators
+from element import *
+from locator import *
 from selenium.webdriver.common.by import By
+from datetime import datetime
+import time
+
 
 class SearchTextElement(BasePageElement):
     """This class gets the search text from the specified locator"""
@@ -18,10 +21,7 @@ class BasePage(object):
 
 
 class MainPage(BasePage):
-    """Home page action methods come here. I.e. Python.org"""
 
-    #Declares a variable that will contain the retrieved text
-    search_text_element = SearchTextElement()
 
     def click_cookie_button(self):
 
@@ -29,34 +29,96 @@ class MainPage(BasePage):
         element.click()
 
 
-    def click_buscar(self):
+    def seleccionar_servicio(self, servicio):
 
-        element = self.driver.find_element(*MainPageLocators.SELECIONAR_FORFAIT)
-        element.click()
+        servicios = {
+            "forfait": self.driver.find_element(*MainPageLocators.SELECIONAR_FORFAIT),
+            "hotel": self.driver.find_element(*MainPageLocators.SELECCIONAR_HOTEL),
+            "clases": self.driver.find_element(*MainPageLocators.SELECCIONAR_CLASES),
+            "alquiler": self.driver.find_element(*MainPageLocators.SELECCIONAR_ALQUILER),
+            "restauracion": self.driver.find_element(*MainPageLocators.SELECCIONAR_RESTAURACION),
+            "actividades": self.driver.find_element(*MainPageLocators.SELECCIONAR_ACTIVIDADES)
+        }
+        
+        element = servicios[servicio]
+        
+        return element
 
-    def buscar_swimlane(self, servicio):
 
-        items = self.driver.find_elements(*MainPageLocators.SWIMLINES)
+    def continuar(self):
+
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
+        return element
+
+"""    def buscar_swimlane(self, servicio):
+
+        items = self.driver.find_elements(*MainPageLocators.SWIMLANES)
         for num in range(1, len(items)):
 
-            swimline_name = self.driver.find_element(By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{num}]/label/div[2]/div/div[2]/div/div')
+            swimline_name = self.driver.find_element(By.XPATH, MainPageLocators.swimlane_name(num))
             if servicio == swimline_name.text.lower():
                 return True
-        return False
-
-    
+        return False"""   
         
 
-
-class SearchResultsPage(BasePage):
+class CalendarPage(BasePage):
     """Search results page action methods come here"""
 
-    def is_results_found(self):
-        # Probably should search for this text in the specific page
-        # element, but as for now it works fine
-        return "No results found." not in self.driver.page_source
-    
-    def find_search_elements(self):
 
-        results = self.driver.find_element(*MainPageLocators.SEARCH_RESULTS)
-        return results
+    def encontrar_fecha(self, fecha):
+        
+        try:
+            fecha_obj = datetime.strptime(fecha, "%d/%m/%Y")
+        except:
+            fecha_obj = datetime.strptime(fecha, "%d-%m-%Y")
+
+        timestamp = datetime.timestamp(fecha_obj)
+        timestamp = str(int(timestamp*1000))
+
+        day_element = self.driver.find_element(By.CSS_SELECTOR, CalendarPageLocators.day_cs_selector(timestamp))
+        return day_element
+
+
+    def siguiente_mes(self):
+
+        element = self.driver.find_elements(*CalendarPageLocators.NEXT_MONTH_BUTTON)[-1]
+        return element
+
+    def cambiar_mes_hasta_encontrar_fecha(self, fecha):
+        print("iniciando funcion")
+        control = True
+        while control:
+            time.sleep(0.5)
+            try:
+                element = self.encontrar_fecha(fecha=fecha)
+                element.click()               
+                print("encontrado")
+                control = False
+            
+            except:
+                print("element not found")
+                try:
+                    self.siguiente_mes().click()
+                    print("clickable")
+                except:
+                    print("not clickable")
+                    control = False
+                time.sleep(0.5)
+        time.sleep(2)
+
+    def seleccionar_fecha_entrada(self, fecha):
+        ...
+    
+    def seleccionar_fecha_salida(self, fecha):
+        ...
+
+    def click_continuar(self):
+
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
+        element.click()
+    
+
+class SeleccionarClasePage(BasePage):
+
+    def encontrar_clase_colectiva(self):
+        ...

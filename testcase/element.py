@@ -22,3 +22,4 @@ class BasePageElement(object):
             lambda driver: driver.find_element(By.NAME, self.locator))
         element = driver.find_element(By.NAME, self.locator)
         return element.get_attribute("value")
+
