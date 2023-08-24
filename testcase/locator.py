@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 class MainPageLocators(object):
-    """A class for main page locators. All main page locators should come here"""
+
     SWIMLANE_ORDER = {"HOTEL":1, 
                       "FORFAIT":2, 
                       "CLASES":3, 
@@ -20,13 +20,8 @@ class MainPageLocators(object):
     SWIMLANES = (By.CSS_SELECTOR, "[class='btnb-list-checkbox__unrelated  ']")
     CONTINUAR = (By.ID, "edit-submit")
 
-    def swimlane_name(interator):
-        ...
-        name = f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{interator}]/label/div[2]/div/div[2]/div/div'
-        return name
 
 class CalendarPageLocators(object):
-    
     
     def day_cs_selector(timestamp):
 
@@ -35,9 +30,11 @@ class CalendarPageLocators(object):
 
     NEXT_MONTH_BUTTON = (By.CLASS_NAME, "button-next-month")
 
+
 class ClasesPageLocators(object):
 
-    CLASE_COLECTIVA = (By.XPATH, f'//*[@id="edit-step-container"]/div[3]/label/div[2')
-    
-    '//*[@id="edit-step-container"]/div[3]/label/div[2]'
-    '//*[@id="edit-step-container"]/div[4]/label/div[2]'
+    def clase_css_selector(clase):
+        # Valor dentro del atributo "for" del div
+        clases_selectors = {"colectivas": "clase_209", "particulares": "clase_237"}
+        return "#edit-step-container > div:nth-child(3)"
+        return f"[for='{clases_selectors[clase]}'] > [class='btnb-list-checkbox__ch-img-cont combined-child']"

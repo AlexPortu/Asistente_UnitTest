@@ -85,32 +85,24 @@ class CalendarPage(BasePage):
         return element
 
     def cambiar_mes_hasta_encontrar_fecha(self, fecha):
-        print("iniciando funcion")
         control = True
         while control:
             time.sleep(0.5)
             try:
                 element = self.encontrar_fecha(fecha=fecha)
                 element.click()               
-                print("encontrado")
                 control = False
             
             except:
-                print("element not found")
+        
                 try:
                     self.siguiente_mes().click()
-                    print("clickable")
+
                 except:
-                    print("not clickable")
                     control = False
+
                 time.sleep(0.5)
         time.sleep(2)
-
-    def seleccionar_fecha_entrada(self, fecha):
-        ...
-    
-    def seleccionar_fecha_salida(self, fecha):
-        ...
 
     def click_continuar(self):
 
@@ -120,5 +112,7 @@ class CalendarPage(BasePage):
 
 class SeleccionarClasePage(BasePage):
 
-    def encontrar_clase_colectiva(self):
-        ...
+    def encontrar_clase(self, clase):
+        
+        element = self.driver.find_element(By.CSS_SELECTOR, ClasesPageLocators.clase_css_selector(clase))
+        return element

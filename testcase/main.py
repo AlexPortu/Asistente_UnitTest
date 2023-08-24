@@ -36,11 +36,20 @@ class AsistenteSearch(unittest.TestCase):
         calendar_page = page.CalendarPage(self.driver)
         # formato fecha --> dia / mes / año. 02/12/2023
         # Busca y hace click en la fecha de entrada
-        calendar_page.cambiar_mes_hasta_encontrar_fecha("01/12/2023")
+        calendar_page.cambiar_mes_hasta_encontrar_fecha("02/12/2023")
         # Busca y hace click en la fecha de salida
         calendar_page.encontrar_fecha("03/12/2023").click()
         calendar_page.click_continuar()
-        time.sleep(5)
+        time.sleep(2)
+
+        clases_page = page.SeleccionarClasePage(self.driver)
+        # parameters: 'colectiva' o 'particular'
+        try:
+            clases_page.encontrar_clase("colectiva").click()
+        except:
+            print("Clase no disponible")
+
+        time.sleep(1)
 
 
     def tearDown(self):
