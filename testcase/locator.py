@@ -1,30 +1,22 @@
 from selenium.webdriver.common.by import By
 
+""" Parametros de la 'funcion find_element' donde establece el tipo de búsqueda y sus localización en el html """
 class MainPageLocators(object):
+    """ Localizadores de la página principal """
 
-    SWIMLANE_ORDER = {"HOTEL":1, 
-                      "FORFAIT":2, 
-                      "CLASES":3, 
-                      "ACTIVIDADES":4,
-                      "ALQUILER":5,
-                      "RESTAURACION":6}
-
-    SELECIONAR_FORFAIT = (By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{SWIMLANE_ORDER["FORFAIT"]}]/label/div[1]')
-    SELECCIONAR_CLASES = (By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{SWIMLANE_ORDER["CLASES"]}]/label/div[1]')
-    SELECCIONAR_ACTIVIDADES = (By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{SWIMLANE_ORDER["ACTIVIDADES"]}]/label/div[1]')
-    SELECCIONAR_HOTEL = (By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{SWIMLANE_ORDER["HOTEL"]}]/label/div[1]')
-    SELECCIONAR_ALQUILER = (By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{SWIMLANE_ORDER["ALQUILER"]}]/label/div[1]')
-    SELECCIONAR_RESTAURACION = (By.XPATH, f'//*[@id="bntb-list-checkbox"]/div/div/div/div[{SWIMLANE_ORDER["RESTAURACION"]}]/label/div[1]')
-
+    #Swimlanes --> Localiza el id dentro del div. Para añadir valores copiar xpath y cambiar @id=xxxx
+    def swimlane_xpath_selector(swimlane):
+        return f"//*[@id={swimlane}]//ancestor::div[contains(@class, 'btnb-list-checkbox__unrelated  ')]"
+    
     COOKIE_BUTTON = (By.ID, "CybotCookiebotDialogBodyButtonAccept")
-    SWIMLANES = (By.CSS_SELECTOR, "[class='btnb-list-checkbox__unrelated  ']")
     CONTINUAR = (By.ID, "edit-submit")
 
 
 class CalendarPageLocators(object):
+    """ Localizadores de la página de Calendario """
     
     def day_cs_selector(timestamp):
-
+        #Encuentra el elemento en el HTML dependiendo de la fecha que pide el usuario del test
         css_selector = f"[data-time='{timestamp}']"
         return css_selector
 
@@ -32,9 +24,18 @@ class CalendarPageLocators(object):
 
 
 class ClasesPageLocators(object):
+    """ Localizadores de la página de selección de clases """
 
-    def clase_css_selector(clase):
-        # Valor dentro del atributo "for" del div
-        clases_selectors = {"colectivas": "clase_209", "particulares": "clase_237"}
-        return "#edit-step-container > div:nth-child(3)"
-        return f"[for='{clases_selectors[clase]}'] > [class='btnb-list-checkbox__ch-img-cont combined-child']"
+    def clase_xpath_selector(clase):
+        #Encuentra el elemento según el input del usuario. Se mantiene en SelectorValues() los valores posibles
+        return f"//label[@for='{clase}']//ancestor::div[contains(@class, 'btnb-list-checkbox__unrelated')]"
+    
+    def confirmar_xpath_selector(clase):
+        return f"//*[@id='btnb-plusinput_{clase}']//child::div[contains(@class, 'btnb-popup__continue')]"
+
+class SectorPageLocators(object):
+    """ Localizadores de la página de selección de sector """
+
+    def sector_xpath_selector(sector):
+        # Encuentra el sector según el input. Posibles inputs en SectorValues()
+        return f"//*[@id='sector_L{sector}']//ancestor::div[contains(@class, 'btnb-list-checkbox__unrelated  ')]"

@@ -3,50 +3,41 @@ from locator import *
 from selenium.webdriver.common.by import By
 from datetime import datetime
 import time
-
+from selectorvalues import *
 
 class SearchTextElement(BasePageElement):
     """This class gets the search text from the specified locator"""
-
     #The locator for search box where search string is entered
     locator = 'keys'
 
-
 class BasePage(object):
-    """Base class to initialize the base page that will be called from all
-    pages"""
-
+    """ Página base que van a heredar las demás páginas"""
     def __init__(self, driver):
         self.driver = driver
 
-
 class MainPage(BasePage):
-
-
-    def click_cookie_button(self):
-
+    """ Funciones de la página principal """
+    def el_cookie_button(self):
+        # Elemento boton aceptar cookies
         element = self.driver.find_element(*MainPageLocators.COOKIE_BUTTON)
-        element.click()
-
-
-    def seleccionar_servicio(self, servicio):
-
-        servicios = {
-            "forfait": self.driver.find_element(*MainPageLocators.SELECIONAR_FORFAIT),
-            "hotel": self.driver.find_element(*MainPageLocators.SELECCIONAR_HOTEL),
-            "clases": self.driver.find_element(*MainPageLocators.SELECCIONAR_CLASES),
-            "alquiler": self.driver.find_element(*MainPageLocators.SELECCIONAR_ALQUILER),
-            "restauracion": self.driver.find_element(*MainPageLocators.SELECCIONAR_RESTAURACION),
-            "actividades": self.driver.find_element(*MainPageLocators.SELECCIONAR_ACTIVIDADES)
-        }
-        
-        element = servicios[servicio]
-        
         return element
 
+    def el_servicio(self, servicio):
+        # Elemento tipo de servicio (forfait, clases, etc...)
+        try:
+            selectors = SelectorsValues().swimlanes_ids
+            selector_id = selectors[servicio]
+        except:
+            raise ValueError(f"{servicio} no es un valor válido")
+        try:
+            element = self.driver.find_element(By.XPATH, MainPageLocators.swimlane_xpath_selector(selector_id))
+            return element
 
-    def continuar(self):
-
+        except:
+            raise LookupError(f"Elemento '{servicio}' no se encuentra presente")
+               
+    def el_continuar(self):
+        # Elemento boton continuar
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element
 
@@ -65,7 +56,7 @@ class CalendarPage(BasePage):
     """Search results page action methods come here"""
 
 
-    def encontrar_fecha(self, fecha):
+    def el_fecha(self, fecha):
         
         try:
             fecha_obj = datetime.strptime(fecha, "%d/%m/%Y")
@@ -79,7 +70,7 @@ class CalendarPage(BasePage):
         return day_element
 
 
-    def siguiente_mes(self):
+    def el_siguiente_mes(self):
 
         element = self.driver.find_elements(*CalendarPageLocators.NEXT_MONTH_BUTTON)[-1]
         return element
@@ -87,32 +78,84 @@ class CalendarPage(BasePage):
     def cambiar_mes_hasta_encontrar_fecha(self, fecha):
         control = True
         while control:
-            time.sleep(0.5)
             try:
-                element = self.encontrar_fecha(fecha=fecha)
+                element = self.el_fecha(fecha=fecha)
                 element.click()               
                 control = False
             
             except:
         
                 try:
-                    self.siguiente_mes().click()
+                    self.el_siguiente_mes().click()
 
                 except:
                     control = False
+        time.sleep(1)
 
-                time.sleep(0.5)
-        time.sleep(2)
-
-    def click_continuar(self):
+    def el_continuar(self):
 
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
-        element.click()
+        return element
     
 
 class SeleccionarClasePage(BasePage):
 
-    def encontrar_clase(self, clase):
+    def el_producto_clase(self, clase):
         
-        element = self.driver.find_element(By.CSS_SELECTOR, ClasesPageLocators.clase_css_selector(clase))
+        try:
+            selectors = SelectorsValues().clases_selectors
+            selector_clase = selectors[clase]
+        except:
+            raise ValueError(f"'{clase}' no es un valor válido ")
+    
+        try:
+            element = self.driver.find_element(By.XPATH, ClasesPageLocators.clase_xpath_selector(selector_clase))
+            return element
+            
+        except:
+            raise LookupError(f"'{clase}' no se encuentra disponible para esas fechas")
+        
+
+    def el_estilo(self, clase, estilo):
+
+        try:
+            selectors = SelectorsValues().estilos_selectors
+            selector_estilo = selectors[estilo] + SelectorsValues().clases_selectors[clase].split("_")[-1]
+        except:
+            raise ValueError(f"'{estilo}' no es un valor válido ")
+    
+        try:
+            element = self.driver.find_element(By.ID, selector_estilo)
+            return element
+            
+        except:
+            raise LookupError(f"'{clase}' no se encuentra disponible para esas fechas")
+
+    def el_confirmar(self, clase):
+        selector_clase = SelectorsValues().clases_selectors[clase].split("_")[-1]
+        element = self.driver.find_element(By.XPATH, ClasesPageLocators.confirmar_xpath_selector(selector_clase))
+        return element
+
+    def el_continuar(self):
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
+        return element
+
+
+class SectorPage(BasePage):
+
+    def el_sector(self, sector):
+        # Deuvelve el elemento sector
+        try:
+            selector_sector = SelectorsValues().sectores_selectors[sector]
+        except:
+            raise ValueError(f"'{sector}' no es un valor válido ")
+
+        try:
+            element = self.driver.find_element(By.XPATH, SectorPageLocators.sector_xpath_selector(selector_sector))
+            return element
+        except:
+            raise LookupError(f"{sector} no disponible")
+    
+    def el_continuar(self):
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element

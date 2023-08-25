@@ -3,57 +3,70 @@ from selenium import webdriver
 import page
 from selenium.webdriver.common.by import By
 import time
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class AsistenteSearch(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
-        # self.driver.set_window_size(1080,1200)
-        self.driver.get("https://assistant.grandvalira.com/assistant/intereses")
-        
+       
+        options = webdriver.ChromeOptions() 
+        options.add_argument("start-maximized")
+        # to supress the error messages/logs
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        self.driver = webdriver.Chrome(options=options)
+        self.driver.get('https://assistant.grandvalira.com/assistant/intereses')
 
-    def test_swimlane_forfait(self):
+    def test_swimlane_colectivas(self):
+        """ Va a testear una swimlane entera de Clases. 
+        Es necesario dar como input los siguientes valores"""
 
-        #Carga la página principal. La que se determine en setUp()
+        # Para saber que inputs son posibles consultar selectorvalues.py en el mismo directorio. Las claves son los inputs posibles por el usuario
+        swimlane = "clases"
+        fecha_entrada = "02/12/2023"  # FORMATO: DIA/MES/AÑO
+        fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO
+        tipo_clase = "colectivas"
+        estilo = "esqui"
+        sector = "tarter"
+
+        # Carga la página principal. La que se determine en setUp()
         main_page = page.MainPage(self.driver)
-        action = ActionChains(self.driver)
-
-        #Aceptar cookies
-        main_page.click_cookie_button()
-
+        # Aceptar cookies
+        main_page.el_cookie_button().click()
         # hacer click en la swinlane
-        # click_seleccionar_servicio tiene los siguientes parametros:
-        # forfait, clases, hotel, actividades, alquiler, restauracion
-        self.driver.execute_script("arguments[0].scrollIntoView()", main_page.seleccionar_servicio("alquiler"))
-        time.sleep(0.5)
-        main_page.seleccionar_servicio("clases").click()
-        main_page.continuar().click()
+        self.driver.execute_script("arguments[0].scrollIntoView()", main_page.el_servicio(swimlane))
+        main_page.el_servicio(swimlane).click()
+        main_page.el_continuar().click()
         
-
         calendar_page = page.CalendarPage(self.driver)
-        # formato fecha --> dia / mes / año. 02/12/2023
         # Busca y hace click en la fecha de entrada
-        calendar_page.cambiar_mes_hasta_encontrar_fecha("02/12/2023")
+        calendar_page.cambiar_mes_hasta_encontrar_fecha(fecha_entrada)
         # Busca y hace click en la fecha de salida
-        calendar_page.encontrar_fecha("03/12/2023").click()
-        calendar_page.click_continuar()
-        time.sleep(2)
+        calendar_page.el_fecha(fecha_salida).click()
+        calendar_page.el_continuar().click()
+        time.sleep(0.5)
 
         clases_page = page.SeleccionarClasePage(self.driver)
-        # parameters: 'colectiva' o 'particular'
+        # Busca que la clase seleccionada esté disponible para esas fechas y la selecciona
         try:
-            clases_page.encontrar_clase("colectiva").click()
-        except:
-            print("Clase no disponible")
-
+            clases_page.el_producto_clase(tipo_clase).click()
+        except Exception as err:
+            assert False
+        time.sleep(0.5)
+        clases_page.el_estilo(tipo_clase, estilo).click()
+        clases_page.el_confirmar(tipo_clase).click()
+        clases_page.el_continuar().click()
         time.sleep(1)
+
+        sector_page = page.SectorPage(self.driver)
+        sector_page.el_sector(sector).click()
+        sector_page.el_continuar().click()
+        time.sleep(5)
+        assert True
 
 
     def tearDown(self):
         self.driver.close()
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(warnings='ignore')
