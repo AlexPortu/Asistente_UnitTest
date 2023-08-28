@@ -39,3 +39,10 @@ class SectorPageLocators(object):
     def sector_xpath_selector(sector):
         # Encuentra el sector según el input. Posibles inputs en SectorValues()
         return f"//*[@id='sector_L{sector}']//ancestor::div[contains(@class, 'btnb-list-checkbox__unrelated  ')]"
+
+class UnidadesPageLocators(object):
+    """ Localizadores de la página de selección de unidades """
+
+    AÑADIR_UNIDADES = (By.XPATH, "//*[@class='cl_options__button b_add']")
+    NIVEL = (By.XPATH, "//select[contains(@name, 'nivel_45673_c_')]/option[text()='Debutante']")
+    IDIOMA = (By.XPATH, "//select[contains(@name, 'idioma_45673_c_')]/option[text()='Español']")

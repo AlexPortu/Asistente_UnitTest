@@ -4,7 +4,6 @@ import page
 from selenium.webdriver.common.by import By
 import time
 
-
 class AsistenteSearch(unittest.TestCase):
 
 
@@ -59,9 +58,17 @@ class AsistenteSearch(unittest.TestCase):
         time.sleep(1)
 
         sector_page = page.SectorPage(self.driver)
+        self.driver.execute_script("arguments[0].scrollIntoView()", sector_page.el_sector(sector))
         sector_page.el_sector(sector).click()
         sector_page.el_continuar().click()
-        time.sleep(5)
+        time.sleep(1)
+        
+        unidades_page = page.UnidadesPage(self.driver)
+        unidades_page.el_añadir_unidades().click() # Hace click una vez en el primer boton. Falta configurar añadir multiples unidades.
+        unidades_page.el_nivel().click()
+        unidades_page.el_idioma().click()
+        unidades_page.el_continuar().click()
+        time.sleep(2)
         assert True
 
 

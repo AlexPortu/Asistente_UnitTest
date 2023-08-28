@@ -159,3 +159,33 @@ class SectorPage(BasePage):
     def el_continuar(self):
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element
+    
+class UnidadesPage(BasePage):
+
+    def el_añadir_unidades(self):
+        
+        try:
+            element = self.driver.find_element(*UnidadesPageLocators.AÑADIR_UNIDADES)
+            return element
+        except:
+            raise LookupError(f"No es posible añadir unidades")
+    
+    def el_nivel(self):
+        
+        try:
+            element = self.driver.find_element(*UnidadesPageLocators.NIVEL)
+            return element
+        except:
+            raise LookupError(f"No se encuentra el nivel")
+
+    def el_idioma(self):
+
+        try:
+            element = self.driver.find_element(*UnidadesPageLocators.IDIOMA)
+            return element
+        except:
+            raise LookupError(f"No se encuentra el idioma")
+
+    def el_continuar(self):
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
+        return element
