@@ -160,12 +160,12 @@ class SectorPage(BasePage):
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element
     
-class UnidadesPage(BasePage):
+class UnidadesClasesPage(BasePage):
 
     def el_añadir_unidades(self):
         
         try:
-            element = self.driver.find_element(*UnidadesPageLocators.AÑADIR_UNIDADES)
+            element = self.driver.find_element(*UnidadesClasesPageLocators.AÑADIR_UNIDADES)
             return element
         except:
             raise LookupError(f"No es posible añadir unidades")
@@ -173,7 +173,7 @@ class UnidadesPage(BasePage):
     def el_nivel(self):
         
         try:
-            element = self.driver.find_element(*UnidadesPageLocators.NIVEL)
+            element = self.driver.find_element(*UnidadesClasesPageLocators.NIVEL)
             return element
         except:
             raise LookupError(f"No se encuentra el nivel")
@@ -181,7 +181,7 @@ class UnidadesPage(BasePage):
     def el_idioma(self):
 
         try:
-            element = self.driver.find_element(*UnidadesPageLocators.IDIOMA)
+            element = self.driver.find_element(*UnidadesClasesPageLocators.IDIOMA)
             return element
         except:
             raise LookupError(f"No se encuentra el idioma")
@@ -189,3 +189,44 @@ class UnidadesPage(BasePage):
     def el_continuar(self):
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element
+
+class UnidadesForfaitPage(BasePage):
+
+    def el_añadir_unidades(self):   
+        try:
+            element = self.driver.find_element(*UnidadesForfaitPageLocators.AÑADIR_UNIDADES)
+            return element
+        except:
+            raise LookupError(f"No es posible añadir unidades")
+    
+    def el_continuar(self):
+
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
+        return element
+
+class AñadirSeguroPage(BasePage):
+
+    def el_seguro(self):
+
+        try:
+            element = self.driver.find_element(*AñadirSeguroPageLocators.AÑADIR_SEGURO)
+            return element
+        except:
+            raise LookupError(f"No es posible añadir el seguro")
+    
+    def el_nombre(self):
+        
+        try:
+            element = self.driver.find_element(*AñadirSeguroPageLocators.NOMBRE)
+            return element
+        except:
+            raise LookupError(f"No es posible añadir el nombre")
+        
+    def el_apellido(self):
+        
+        try:
+            element = self.driver.find_element(*AñadirSeguroPageLocators.APELLIDO)
+            return element
+        except:
+            raise LookupError(f"No es posible añadir el apellido")
+

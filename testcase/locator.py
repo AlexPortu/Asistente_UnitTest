@@ -40,9 +40,23 @@ class SectorPageLocators(object):
         # Encuentra el sector según el input. Posibles inputs en SectorValues()
         return f"//*[@id='sector_L{sector}']//ancestor::div[contains(@class, 'btnb-list-checkbox__unrelated  ')]"
 
-class UnidadesPageLocators(object):
-    """ Localizadores de la página de selección de unidades """
+class UnidadesClasesPageLocators(object):
+    """ Localizadores de la página de selección de unidades de clases"""
 
     AÑADIR_UNIDADES = (By.XPATH, "//*[@class='cl_options__button b_add']")
     NIVEL = (By.XPATH, "//select[contains(@name, 'nivel_45673_c_')]/option[text()='Debutante']")
     IDIOMA = (By.XPATH, "//select[contains(@name, 'idioma_45673_c_')]/option[text()='Español']")
+
+class UnidadesForfaitPageLocators(object):
+    """ Localizadores de la página de selección de unidades de forfait"""
+
+    AÑADIR_UNIDADES = (By.XPATH, "//*[contains(@class, 'has-icon plus')]")
+
+class AñadirSeguroPageLocators(object):
+    """ Localizadores de la página de añadir seguro """
+
+    AÑADIR_SEGURO = (By.XPATH, "//div[@class='btnb-add-insurance__optn']")
+    NOMBRE = (By.XPATH, "//*[@id='edit-insurance-name-1']")
+    APELLIDO = (By.XPATH, "//*[@id='edit-insurance-surname-1']")
+
+
