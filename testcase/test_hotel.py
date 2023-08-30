@@ -3,6 +3,7 @@ from selenium import webdriver
 import page
 from selenium.webdriver.common.by import By
 import time
+from selenium.webdriver.support import expected_conditions as EC
 
 class AsistenteSearch(unittest.TestCase):
 
@@ -14,20 +15,19 @@ class AsistenteSearch(unittest.TestCase):
         # to supress the error messages/logs
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         self.driver = webdriver.Chrome(options=options)
-        self.driver.get('https://assistant.grandvalira.com/assistant/intereses')
+        self.start_url = 'https://assistant.grandvalira.com/assistant/intereses'
+        self.driver.get(self.start_url)
 
 
-    def test_swimlane_colectivas(self):
-        """ Va a testear una swimlane entera de Clases. 
+    def test_swimlane_hotel(self):
+        """ Va a testear una swimlane entera de Hotel. 
         Es necesario dar como input los siguientes valores"""
-
         # Para saber que inputs son posibles consultar selectorvalues.py en el mismo directorio. Las claves son los inputs posibles por el usuario
-        swimlane = "clases"
+        swimlane = "forfait"
         fecha_entrada = "02/12/2023"  # FORMATO: DIA/MES/AÑO
-        fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO
-        tipo_clase = "colectivas"
-        estilo = "esqui"
-        sector = "tarter"
+        fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO     
+        adultos = 1
+        seguro = True
 
         # Carga la página principal. La que se determine en setUp()
         main_page = page.MainPage(self.driver)
@@ -37,7 +37,7 @@ class AsistenteSearch(unittest.TestCase):
         self.driver.execute_script("arguments[0].scrollIntoView()", main_page.el_servicio(swimlane))
         main_page.el_servicio(swimlane).click()
         main_page.el_continuar().click()
-        
+
         calendar_page = page.CalendarPage(self.driver)
         # Busca y hace click en la fecha de entrada
         calendar_page.cambiar_mes_hasta_encontrar_fecha(fecha_entrada)
@@ -46,32 +46,22 @@ class AsistenteSearch(unittest.TestCase):
         calendar_page.el_continuar().click()
         time.sleep(0.5)
 
-        clases_page = page.SeleccionarClasePage(self.driver)
-        # Busca que la clase seleccionada esté disponible para esas fechas y la selecciona
-        try:
-            clases_page.el_producto_clase(tipo_clase).click()
-        except Exception as err:
-            assert False
-        time.sleep(0.5)
-        clases_page.el_estilo(tipo_clase, estilo).click()
-        clases_page.el_confirmar(tipo_clase).click()
-        clases_page.el_continuar().click()
-        time.sleep(1)
-
-        sector_page = page.SectorPage(self.driver)
-        self.driver.execute_script("arguments[0].scrollIntoView()", sector_page.el_sector(sector))
-        sector_page.el_sector(sector).click()
-        sector_page.el_continuar().click()
-        time.sleep(1)
-        
-        unidades_page = page.UnidadesClasesPage(self.driver)
-        unidades_page.el_añadir_unidades().click() # Hace click una vez en el primer boton. Falta configurar añadir multiples unidades.
-        unidades_page.el_nivel().click()
-        unidades_page.el_idioma().click()
+        unidades_page = page.UnidadesForfaitPage(self.driver)
+        unidades_page.el_añadir_unidades().click()
         unidades_page.el_continuar().click()
-        time.sleep(2)
-        assert True
 
+        time.sleep(0.5)
+
+        seguro_page = page.AñadirSeguroPage(self.driver)
+        seguro_page.el_seguro().click()
+        
+        seguro_page.el_nombre().send_keys("Test")
+        seguro_page.el_apellido().send_keys("Test")
+        seguro_page.el_confirmar().click()
+        seguro_page.el_continuar().click()
+        
+        # Comprueba que hemos llegado al final del camino cotejando la url inicial con la final. La web debería derivar a self.start_url al acabar la swimlane
+        if self.start_url == self.driver.current_url: assert True
 
     def tearDown(self):
         self.driver.close()

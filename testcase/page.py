@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from datetime import datetime
 import time
 from selectorvalues import *
+from selenium.webdriver.support import expected_conditions as EC
 
 class SearchTextElement(BasePageElement):
     """This class gets the search text from the specified locator"""
@@ -204,6 +205,7 @@ class UnidadesForfaitPage(BasePage):
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element
 
+
 class AñadirSeguroPage(BasePage):
 
     def el_seguro(self):
@@ -218,6 +220,7 @@ class AñadirSeguroPage(BasePage):
         
         try:
             element = self.driver.find_element(*AñadirSeguroPageLocators.NOMBRE)
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
             return element
         except:
             raise LookupError(f"No es posible añadir el nombre")
@@ -230,3 +233,15 @@ class AñadirSeguroPage(BasePage):
         except:
             raise LookupError(f"No es posible añadir el apellido")
 
+    def el_confirmar(self):
+        try:
+            element = self.driver.find_element(*AñadirSeguroPageLocators.CONFIRMAR)
+            return element
+        except:
+            raise LookupError(f"No es posible confirmar")
+        
+    def el_continuar(self):
+        # Elemento boton continuar
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+        return element

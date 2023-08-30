@@ -55,8 +55,9 @@ class UnidadesForfaitPageLocators(object):
 class AñadirSeguroPageLocators(object):
     """ Localizadores de la página de añadir seguro """
 
-    AÑADIR_SEGURO = (By.XPATH, "//div[@class='btnb-add-insurance__optn']")
+    AÑADIR_SEGURO = (By.XPATH, "//div[contains(@class, 'wrapper btnb-add-insurance js-form-wrapper form-wrapper')]")
     NOMBRE = (By.XPATH, "//*[@id='edit-insurance-name-1']")
     APELLIDO = (By.XPATH, "//*[@id='edit-insurance-surname-1']")
+    CONFIRMAR = (By.XPATH, "//div[contains(@id, 'edit-btnb-container')]//child::div[contains(@class, 'btnb-popup__confirmation btnb-popup__index-1')]")
 
 
