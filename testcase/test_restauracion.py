@@ -23,7 +23,7 @@ class AsistenteSearch(unittest.TestCase):
         """ Va a testear una swimlane entera de Forfait. 
         Es necesario dar como input los siguientes valores"""
         # Para saber que inputs son posibles consultar selectorvalues.py en el mismo directorio. Las claves son los inputs posibles por el usuario
-        swimlane = "forfait"
+        swimlane = "restauracion"
         fecha_entrada = "02/12/2023"  # FORMATO: DIA/MES/AÑO
         fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO     
         adultos = 1
@@ -38,7 +38,6 @@ class AsistenteSearch(unittest.TestCase):
         main_page.el_servicio(swimlane).click()
         main_page.el_continuar().click()
 
-        
         calendar_page = page.CalendarPage(self.driver)
         # Busca y hace click en la fecha de entrada
         calendar_page.cambiar_mes_hasta_encontrar_fecha(fecha_entrada)
@@ -47,20 +46,13 @@ class AsistenteSearch(unittest.TestCase):
         calendar_page.el_continuar().click()
         time.sleep(0.5)
 
-        unidades_page = page.UnidadesForfaitPage(self.driver)
+        unidades_page = page.UnidadesClasesPage(self.driver)
+        time.sleep(0.5)
         unidades_page.el_añadir_unidades().click()
         unidades_page.el_continuar().click()
 
         time.sleep(0.5)
 
-        seguro_page = page.AñadirSeguroPage(self.driver)
-        seguro_page.el_seguro().click()
-        
-        seguro_page.el_nombre().send_keys("Test")
-        seguro_page.el_apellido().send_keys("Test")
-        seguro_page.el_confirmar().click()
-        seguro_page.el_continuar().click()
-        
         # Comprueba que hemos llegado al final del camino cotejando la url inicial con la final. La web debería derivar a self.start_url al acabar la swimlane
         if self.start_url == self.driver.current_url: assert True
 

@@ -21,6 +21,7 @@ class MainPage(BasePage):
     def el_cookie_button(self):
         # Elemento boton aceptar cookies
         element = self.driver.find_element(*MainPageLocators.COOKIE_BUTTON)
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
         return element
 
     def el_servicio(self, servicio):
@@ -32,6 +33,7 @@ class MainPage(BasePage):
             raise ValueError(f"{servicio} no es un valor válido")
         try:
             element = self.driver.find_element(By.XPATH, MainPageLocators.swimlane_xpath_selector(selector_id))
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
             return element
 
         except:
@@ -169,7 +171,7 @@ class UnidadesClasesPage(BasePage):
             element = self.driver.find_element(*UnidadesClasesPageLocators.AÑADIR_UNIDADES)
             return element
         except:
-            raise LookupError(f"No es posible añadir unidades")
+            raise LookupError("No es posible añadir unidades")
     
     def el_nivel(self):
         
@@ -177,7 +179,7 @@ class UnidadesClasesPage(BasePage):
             element = self.driver.find_element(*UnidadesClasesPageLocators.NIVEL)
             return element
         except:
-            raise LookupError(f"No se encuentra el nivel")
+            raise LookupError("No se encuentra el nivel")
 
     def el_idioma(self):
 
@@ -185,7 +187,7 @@ class UnidadesClasesPage(BasePage):
             element = self.driver.find_element(*UnidadesClasesPageLocators.IDIOMA)
             return element
         except:
-            raise LookupError(f"No se encuentra el idioma")
+            raise LookupError("No se encuentra el idioma")
 
     def el_continuar(self):
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
@@ -196,9 +198,10 @@ class UnidadesForfaitPage(BasePage):
     def el_añadir_unidades(self):   
         try:
             element = self.driver.find_element(*UnidadesForfaitPageLocators.AÑADIR_UNIDADES)
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
             return element
         except:
-            raise LookupError(f"No es posible añadir unidades")
+            raise LookupError("No es posible añadir unidades")
     
     def el_continuar(self):
 
@@ -214,7 +217,7 @@ class AñadirSeguroPage(BasePage):
             element = self.driver.find_element(*AñadirSeguroPageLocators.AÑADIR_SEGURO)
             return element
         except:
-            raise LookupError(f"No es posible añadir el seguro")
+            raise LookupError("No es posible añadir el seguro")
     
     def el_nombre(self):
         
@@ -223,7 +226,7 @@ class AñadirSeguroPage(BasePage):
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
             return element
         except:
-            raise LookupError(f"No es posible añadir el nombre")
+            raise LookupError("No es posible añadir el nombre")
         
     def el_apellido(self):
         
@@ -231,14 +234,14 @@ class AñadirSeguroPage(BasePage):
             element = self.driver.find_element(*AñadirSeguroPageLocators.APELLIDO)
             return element
         except:
-            raise LookupError(f"No es posible añadir el apellido")
+            raise LookupError("No es posible añadir el apellido")
 
     def el_confirmar(self):
         try:
             element = self.driver.find_element(*AñadirSeguroPageLocators.CONFIRMAR)
             return element
         except:
-            raise LookupError(f"No es posible confirmar")
+            raise LookupError("No es posible confirmar")
         
     def el_continuar(self):
         # Elemento boton continuar
