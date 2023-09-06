@@ -30,8 +30,9 @@ Instalar los requerimientos:
 
 Como executar los tests:
 
-Cada test es una función que empieza por "test_"... dentro de testcase/main.py. Se configura un test por cada swimlane y el objetivo es llegar a formalizar un carrito de compra con los inputs que el usuario ofrece al principio de cada test. El test se dará por válido si ha llegado a finalizar todo el proceso
+Cada test es una función que empieza por "test_"... dentro de testcase/<test_...>.py. Se configura un test por cada swimlane y el objetivo es llegar a formalizar un carrito de compra con los inputs que el usuario ofrece al principio de cada test. El test se dará por válido si ha llegado a finalizar todo el proceso
 
 Para ejecutar los tests:
-    python testcase/main.py
+    python testcase/<Nombre del archivo>
+    ejemplo: python testcase/test_forfait.py
 
