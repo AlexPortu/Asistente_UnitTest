@@ -23,10 +23,10 @@ class AsistenteSearch(unittest.TestCase):
         """ Va a testear una swimlane entera de Hotel. 
         Es necesario dar como input los siguientes valores"""
         # Para saber que inputs son posibles consultar selectorvalues.py en el mismo directorio. Las claves son los inputs posibles por el usuario
-        swimlane = "forfait"
+        swimlane = "hotel"
         fecha_entrada = "02/12/2023"  # FORMATO: DIA/MES/AÑO
         fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO     
-        adultos = 1
+        adultos = 2
         seguro = True
 
         # Carga la página principal. La que se determine en setUp()
@@ -52,16 +52,21 @@ class AsistenteSearch(unittest.TestCase):
 
         time.sleep(0.5)
 
-        seguro_page = page.AñadirSeguroPage(self.driver)
-        seguro_page.el_seguro().click()
-        
-        seguro_page.el_nombre().send_keys("Test")
-        seguro_page.el_apellido().send_keys("Test")
-        seguro_page.el_confirmar().click()
-        seguro_page.el_continuar().click()
+        hotel_page = page.HotelOpcionesPage(self.driver)
+        hotel_page.el_habitacion().click()
+        self.driver.execute_script("arguments[0].scrollIntoView()", hotel_page.el_regimen())
+        hotel_page.el_regimen().click()
+        self.driver.execute_script("arguments[0].scrollIntoView()", hotel_page.el_reservar())
+        hotel_page.el_reservar().click()
+
+        time.sleep(3)
         
         # Comprueba que hemos llegado al final del camino cotejando la url inicial con la final. La web debería derivar a self.start_url al acabar la swimlane
-        if self.start_url == self.driver.current_url: assert True
+        
+        if self.start_url == self.driver.current_url: 
+            assert True
+        else:
+            raise ValueError("Ha habido un error al finalizar la compra")
 
     def tearDown(self):
         self.driver.close()

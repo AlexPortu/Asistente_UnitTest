@@ -9,6 +9,7 @@ class MainPageLocators(object):
         return f"//*[@id={swimlane}]//ancestor::div[contains(@class, 'btnb-list-checkbox__unrelated  ')]"
     
     COOKIE_BUTTON = (By.ID, "CybotCookiebotDialogBodyButtonAccept")
+    COMBINAR = (By.XPATH, "//div[@id='btnb-offer-label-i2']")
     CONTINUAR = (By.ID, "edit-submit")
 
 
@@ -61,3 +62,13 @@ class AñadirSeguroPageLocators(object):
     CONFIRMAR = (By.XPATH, "//div[contains(@id, 'edit-btnb-container')]//child::div[contains(@class, 'btnb-popup__confirmation btnb-popup__index-1')]")
 
 
+class HotelesOpcionesPageLocators(object):
+    """ Localizadores de la página de selección de hotel / tipo de habitación """
+
+    HABITACION = (By.XPATH, "//div[@id='btnb-room-options0-option-0']//child::div[contains(@class, 'arrow-right-line detail_button_arrw')]")
+    REGIMEN = (By.XPATH, "//div[@id='btnb-popup-room-options0-option-0']//child::div[contains(@data-parent-id, 'btnb-room-price-option' )]")
+    RESERVAR = (By.XPATH, "//div[contains(@id, 'btnb-popup-room-options0-option-0')]//child::div[@class='btnb-room-type-price__submit']")
+
+class HotelForfaitSeleccionarForfaitPageLocators(object):
+
+    CONTINUAR = (By.ID, "edit-submit")

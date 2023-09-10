@@ -44,15 +44,14 @@ class MainPage(BasePage):
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element
 
-"""    def buscar_swimlane(self, servicio):
+    def el_combinar(self):
+        try:
+            element = self.driver.find_element(*MainPageLocators.COMBINAR)
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+            return element
 
-        items = self.driver.find_elements(*MainPageLocators.SWIMLANES)
-        for num in range(1, len(items)):
-
-            swimline_name = self.driver.find_element(By.XPATH, MainPageLocators.swimlane_name(num))
-            if servicio == swimline_name.text.lower():
-                return True
-        return False"""   
+        except:
+            raise LookupError(f"No se encuentra el boton combinar")
         
 
 class CalendarPage(BasePage):
@@ -247,4 +246,42 @@ class AñadirSeguroPage(BasePage):
         # Elemento boton continuar
         element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+        return element
+
+
+class HotelOpcionesPage(BasePage):
+
+    def el_habitacion(self):
+
+        try:
+            element = self.driver.find_element(*HotelesOpcionesPageLocators.HABITACION)
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+            return element
+        except:
+            raise LookupError("No es posible añadir el hotel")
+
+    def el_regimen(self):
+
+        try:
+            element = self.driver.find_element(*HotelesOpcionesPageLocators.REGIMEN)
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+            return element
+        except:
+            raise LookupError("No es posible añadir la habitacion")
+        
+    def el_reservar(self):
+
+        try:
+            element = self.driver.find_element(*HotelesOpcionesPageLocators.RESERVAR)
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(element))
+            return element
+        except:
+            raise LookupError("No es posible hacer click en reservar")
+    
+
+class HotelForfaitTipoForfait(BasePage):
+
+    def el_continuar(self):
+
+        element = self.driver.find_element(*MainPageLocators.CONTINUAR)
         return element

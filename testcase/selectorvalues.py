@@ -33,7 +33,6 @@ class SelectorsValues(object):
             "encamp": "18"
         }
         
-        """ ------ Variables de uso interno ------ """
 
 
 
