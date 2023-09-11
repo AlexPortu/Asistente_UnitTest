@@ -20,14 +20,12 @@ class AsistenteSearch(unittest.TestCase):
 
 
     def test_swimlane_forfait(self):
-        """ Va a testear una swimlane entera de Forfait. 
+        """ Va a testear una swimlane entera de Restauración. 
         Es necesario dar como input los siguientes valores"""
         # Para saber que inputs son posibles consultar selectorvalues.py en el mismo directorio. Las claves son los inputs posibles por el usuario
         swimlane = "restauracion"
         fecha_entrada = "02/12/2023"  # FORMATO: DIA/MES/AÑO
         fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO     
-        adultos = 1
-        seguro = True
 
         # Carga la página principal. La que se determine en setUp()
         main_page = page.MainPage(self.driver)

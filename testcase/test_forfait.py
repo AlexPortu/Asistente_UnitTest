@@ -26,8 +26,8 @@ class AsistenteSearch(unittest.TestCase):
         swimlane = "forfait"
         fecha_entrada = "02/12/2023"  # FORMATO: DIA/MES/AÑO
         fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO     
-        adultos = 1
-        seguro = True
+        # adultos = 1
+        # seguro = True
 
         # Carga la página principal. La que se determine en setUp()
         main_page = page.MainPage(self.driver)
