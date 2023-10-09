@@ -36,3 +36,17 @@ Para ejecutar los tests:
     python testcase/<Nombre del archivo>
     ejemplo: python testcase/test_forfait.py
 
+
+Como está configurado un test:
+
+Todo test sigue una misma estructura. Primero empiza inicializando el test con una función llamada SetUp(). A continuación le sigue una función propia del test. En cada caso y según la swimlane, se seguirá una camino de test diferente. Por último, se finaliza el test con la funcion TearDown().
+
+Estructura del proyecto:
+
+    1. test_<swimlane>.py configuran los propios tests. Utilizan clases de los archivos a continuación.
+    2. page.py almacena las funciones y variables de los elementos de la web de asistentes. Por ejemplo, el boton continuar se almacena en una clase referente a la página donde se encuentra. Los elementos se denominan con el_<nombre_del_elemento>. Pueden ser funciones o variables.
+    3. locator.py guarda la información html de cómo encontrar los elementos que se hacen referencia page.py. Esto es para hacer el código más limpio y tenerlo todo bien organizado.
+    4. selectorvalues.py almacena información semi-estática en donde el usuario va a poder consultar las opciones disponbiles cuando el test le exija parámtros obligatorios para realizar el proceso.
+
+
+

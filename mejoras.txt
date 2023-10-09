@@ -1,0 +1,6 @@
+1. Añadir la funcionalidad de loggin y crear archivos con logs de los tests
+2. Endurecer el assert en los tests para que sean más robustos
+3. Crear los tests de actividades y alquiler una vez estén operativos en la web
+4. Crear una manera de que el usuario pueda añadir peticiones en los tests
+5. Codear un TestSuite para ejecutar los tests simultaneamente
+6. Documentar el proyecto

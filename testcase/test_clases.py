@@ -70,7 +70,11 @@ class AsistenteSearch(unittest.TestCase):
         unidades_page.el_idioma().click()
         unidades_page.el_continuar().click()
         time.sleep(2)
-        assert True
+        
+        if self.start_url == self.driver.current_url: 
+            assert True
+        else:
+            raise ValueError("Ha habido un error al finalizar la compra")
 
 
     def tearDown(self):

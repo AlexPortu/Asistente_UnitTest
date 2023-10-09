@@ -24,8 +24,8 @@ class AsistenteSearch(unittest.TestCase):
         Es necesario dar como input los siguientes valores"""
         # Para saber que inputs son posibles consultar selectorvalues.py en el mismo directorio. Las claves son los inputs posibles por el usuario
         swimlane = "hotel"
-        fecha_entrada = "02/12/2023"  # FORMATO: DIA/MES/AÑO
-        fecha_salida = "03/12/2023"  # FORMATO: DIA/MES/AÑO     
+        fecha_entrada = "05/01/2024"  # FORMATO: DIA/MES/AÑO
+        fecha_salida = "09/01/2024"  # FORMATO: DIA/MES/AÑO     
         # adultos = 1
 
 
